@@ -18,7 +18,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.EntityConfigurations.EntryComm
 
             builder.ToTable("entrycomment", BlazorSozlukContext.DEFAULT_SCHEMA);
 
-            builder.HasOne(e => e.CreatedBy).WithMany(e => e.EntryComments).HasForeignKey(e => e.CreatedById);
+            builder.HasOne(e => e.CreatedBy).WithMany(e => e.EntryComments).HasForeignKey(e => e.CreatedById).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Entry).WithMany(e => e.EntryComments).HasForeignKey(e => e.EntryId);
         }
