@@ -19,7 +19,7 @@ namespace BlazorSozluk.Common.ViewModels.Models.RequestModels
         {
             
         }
-        public string EmailAdress { get; private set; }
-        public string Password { get; private set; }
+        public string EmailAdress { get;  set; }
+        public string Password { get;  set; }
     }
 }

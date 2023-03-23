@@ -30,7 +30,11 @@ namespace BlazorSozluk.Api.Application.Interfaces.Repositories
         IQueryable<TEntity> AsQueryable();
         
         Task<List<TEntity>> GetAll(bool noTracking = true);
-        Task<TEntity> GetByIdAsync(Guid id, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes); 
+        Task<List<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order = null, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetByIdAsync(Guid id, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes);
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes);
 
         Task BullDeleteById(IEnumerable<Guid> ids);
         Task BulkDelete(Expression<Func<TEntity, bool>> predicate);

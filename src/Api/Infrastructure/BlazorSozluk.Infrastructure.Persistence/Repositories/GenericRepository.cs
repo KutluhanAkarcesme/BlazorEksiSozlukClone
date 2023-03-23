@@ -48,7 +48,37 @@ namespace BlazorSozluk.Infrastructure.Persistence.Repositories
         {
             throw new NotImplementedException();
         }
+        public async Task<List<TEntity>> GetList(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = entity;
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            foreach (Expression<Func<TEntity, object>> include in includes)
+            {
+                query = query.Include(include);
+            }
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+            if (noTracking)
+                query = query.AsNoTracking();
 
+
+            return await query.ToListAsync();
+        }
+
+        public Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes)
+        {
+            throw new NotImplementedException();
+        }
         public virtual async Task<TEntity> GetByIdAsync(Guid id, bool noTracking = true, params Expression<Func<TEntity, object>>[] includes)
         {
             TEntity found = await entity.FindAsync(id);
@@ -99,7 +129,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Repositories
         }
         #endregion
 
-        #region Add Methods
+        #region Insert Methods
         public virtual int Add(TEntity entity)
         {
             this.entity.Add(entity);
@@ -282,5 +312,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Repositories
 
             return query;
         }
+
+        
     }
 }
